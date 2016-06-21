@@ -1,12 +1,87 @@
-﻿<Window x:Class="CrossColorReplacer.MainWindow"
+﻿<Window x:Class="CrossColorReplacer.MainWindow" Name="_this"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:CrossColorReplacer"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
-    </Grid>
+        WindowStyle="None" ResizeMode="NoResize"
+        AllowsTransparency="True" Background="Transparent"
+        WindowStartupLocation="CenterScreen"
+        Width="800" Height="500">
+    <Border Background="Black" CornerRadius="30" MouseLeftButtonDown="MD">
+        <x:Code>
+            void MD(object s, MouseEventArgs EA) { try { DragMove(); } catch { } }
+        </x:Code>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Image Name="CurrentImage" MouseLeftButtonDown="MD"/>
+            <TextBlock Name="TitleTB" Opacity="0" Foreground="Lime" 
+                       FontSize="20" FontFamily="Tele-Marines" Text="Cross_Color_Replacer" 
+                       HorizontalAlignment="Center" VerticalAlignment="Top">
+                <TextBlock.Triggers>
+                    <EventTrigger RoutedEvent="Loaded">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="TitleTB" Storyboard.TargetProperty="Opacity">
+                                    <LinearDoubleKeyFrame KeyTime="0:0:0.5" Value="1"/>
+                                    <LinearDoubleKeyFrame KeyTime="0:0:5" Value="0"/>
+                                </DoubleAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </TextBlock.Triggers>
+            </TextBlock>
+            <Grid Name="ButtonPanel" Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button Name="OpenButton" Content="Открыть" Click="OpenButton_Click"/>
+                <Button Name="SaveAsButton" Grid.Column="1" Content="Сохранить как" Click="SaveAsButton_Click"/>
+                <Grid Grid.Column="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Button Name="FirstColorButton" Content="Что меняем?" Click="FirstColorButton_Click"/>
+                            <Button Name="SecondColorButton" Grid.Column="1" Content="На что?" Click="SecondColorButton_Click"/>
+                        </Grid>
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0" Foreground="White" Text="{Binding ElementName=SensivitySlider, Path=Value, StringFormat='Чувствительность {0:#.##}%.'}"/>
+                                <Slider Grid.Row="1" Orientation="Horizontal" Minimum="1" Maximum="100" Name="SensivitySlider" ValueChanged="SensivitySlider_ValueChanged"/>
+                            </Grid>
+                            <Button Grid.Column="1" Content="Точнее" Click="SetSensivityButton_Click"/>
+                        </Grid>
+                    </Grid>
+                    <Button Grid.Column="1" Content=" Пуск ▶ " Name="PushButton" Click="PushButton_Click"/>
+                </Grid>
+                <Button Name="AboutButton" Grid.Column="3" Content="О приложении" Click="AboutButton_Click"/>
+                <Button Name="ResetButton" Grid.Column="4" Content="Сброс" Click="ResetButton_Click"/>
+                <Button Name="ExitButton" Grid.Column="5" Content="Выйти" Click="ExitButton_Click"/>
+            </Grid>
+        </Grid>
+    </Border>
 </Window>
